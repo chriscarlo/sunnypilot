@@ -13,8 +13,8 @@ Ecu = car.CarParams.Ecu
 
 
 class CarControllerParams:
-  ACCEL_MIN = -3.5 # m/s
-  ACCEL_MAX = 2.0 # m/s
+  ACCEL_MIN = -6.5 # m/s
+  ACCEL_MAX = 5.0 # m/s
 
   def __init__(self, CP, vEgoRaw=100.):
     self.STEER_DELTA_UP = 3
@@ -27,12 +27,12 @@ class CarControllerParams:
 
     if CP.carFingerprint in CANFD_CAR:
       upstream_taco = CP.safetyConfigs[-1].safetyParam & Panda.FLAG_HYUNDAI_UPSTREAM_TACO
-      self.STEER_MAX = 270 if not upstream_taco else 384 if vEgoRaw < 11. else 330
-      self.STEER_DRIVER_ALLOWANCE = 250 if not upstream_taco else 350
+      self.STEER_MAX = 409 if not upstream_taco else 409 if vEgoRaw < 40. else 409
+      self.STEER_DRIVER_ALLOWANCE = 350 if not upstream_taco else 450
       self.STEER_DRIVER_MULTIPLIER = 2
-      self.STEER_THRESHOLD = 250 if not upstream_taco else 350
-      self.STEER_DELTA_UP = 2 if not upstream_taco else 10 if vEgoRaw < 11. else 2
-      self.STEER_DELTA_DOWN = 3 if not upstream_taco else 10 if vEgoRaw < 11. else 3
+      self.STEER_THRESHOLD = 350 if not upstream_taco else 450
+      self.STEER_DELTA_UP = 6 if not upstream_taco else 10 if vEgoRaw < 40. else 6
+      self.STEER_DELTA_DOWN = 10 if not upstream_taco else 10 if vEgoRaw < 40. else 10
 
     # To determine the limit for your car, find the maximum value that the stock LKAS will request.
     # If the max stock LKAS request is <384, add your car to this list.
@@ -49,7 +49,7 @@ class CarControllerParams:
 
     # Default for most HKG
     else:
-      self.STEER_MAX = 384
+      self.STEER_MAX = 409
 
 
 class HyundaiFlags(IntFlag):
